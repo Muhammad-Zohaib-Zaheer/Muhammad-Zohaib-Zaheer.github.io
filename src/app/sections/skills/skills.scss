@@ -1,0 +1,58 @@
+@use 'mixins' as *;
+
+.skills__layout {
+  display: grid;
+  gap: 2.5rem;
+
+  @include up(lg) {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+    gap: 3.5rem;
+  }
+}
+
+.skills__sphere {
+  width: min(100%, 32.5rem);
+  justify-self: center;
+
+  @include up(lg) {
+    position: sticky;
+    top: calc(var(--nav-height) + 2.5rem);
+  }
+}
+
+.skills__hint {
+  margin-top: 0.5rem;
+  color: var(--c-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  text-align: center;
+  opacity: 0.8;
+}
+
+.skills__groups {
+  display: grid;
+  gap: 0.875rem;
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.skills__group {
+  padding: 1.25rem;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .icon-badge {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.05rem;
+  }
+}

@@ -1,0 +1,28 @@
+<section id="skills" class="section">
+  <div class="container">
+    <app-section-heading sectionId="skills" [title]="skills.title" [intro]="skills.intro" />
+
+    <div class="skills__layout">
+      <div class="skills__sphere" appReveal>
+        <app-skill-sphere [tags]="sphereTags" />
+        <p class="skills__hint">{{ skills.sphereHint }}</p>
+      </div>
+
+      <ul class="skills__groups">
+        @for (group of skills.groups; track group.label; let i = $index) {
+          <li class="skills__group card" [appTilt]="5" [appReveal]="i % 2">
+            <h3>
+              <span class="icon-badge"><app-icon [name]="group.icon" /></span>
+              {{ group.label }}
+            </h3>
+            <ul class="chip-list">
+              @for (item of group.items; track item) {
+                <li class="chip">{{ item }}</li>
+              }
+            </ul>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

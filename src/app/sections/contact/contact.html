@@ -1,0 +1,39 @@
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact card" [appTilt]="3" appReveal>
+      <div class="contact__glow" aria-hidden="true"></div>
+
+      <app-section-heading sectionId="contact" [title]="contact.title" [intro]="contact.text" />
+
+      <!-- #region Email and profiles -->
+      <div class="contact__email">
+        <a class="contact__address" [href]="'mailto:' + profile.email">
+          <app-icon name="mail" />
+          <span>{{ profile.email }}</span>
+        </a>
+        <button class="btn btn--ghost btn--sm" type="button" (click)="copyEmail()">
+          <app-icon [name]="copied() ? 'check' : 'copy'" />
+          {{ copied() ? contact.copiedLabel : contact.copyLabel }}
+        </button>
+      </div>
+
+      <div class="contact__links">
+        <a class="btn btn--primary" [href]="'mailto:' + profile.email"
+          ><app-icon name="mail" /> {{ contact.emailLabel }}</a
+        >
+        @for (social of profile.socials; track social.href) {
+          <a class="btn btn--ghost" [href]="social.href" target="_blank" rel="noopener"
+            ><app-icon [name]="social.icon" /> {{ social.label }}</a
+          >
+        }
+      </div>
+      <!-- #endregion -->
+
+      <ul class="contact__facts">
+        @for (fact of contact.facts; track fact.text) {
+          <li><app-icon [name]="fact.icon" /> {{ fact.text }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

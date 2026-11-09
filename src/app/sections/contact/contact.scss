@@ -1,0 +1,88 @@
+@use 'mixins' as *;
+
+.contact {
+  overflow: hidden;
+  padding: clamp(1.75rem, 6vw, 4.5rem);
+  text-align: center;
+
+  ::ng-deep .heading {
+    margin-inline: auto;
+  }
+
+  ::ng-deep .heading__kicker {
+    justify-content: center;
+  }
+}
+
+.contact__glow {
+  position: absolute;
+  inset: -40% -10% auto;
+  height: 120%;
+  z-index: -1;
+  background: var(--gradient-glow);
+  filter: blur(1.875rem);
+  pointer-events: none;
+}
+
+// #region Email row
+
+.contact__email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.125rem;
+}
+
+.contact__address {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 100%;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  transition: color var(--duration);
+
+  app-icon {
+    color: var(--c-accent-2);
+  }
+
+  &:hover {
+    color: var(--c-accent-2);
+  }
+}
+
+// #endregion
+
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.contact__facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem 1.75rem;
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--c-border);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  app-icon {
+    color: var(--c-accent);
+  }
+}

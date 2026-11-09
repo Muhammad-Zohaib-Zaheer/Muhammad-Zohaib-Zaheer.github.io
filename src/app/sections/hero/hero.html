@@ -1,0 +1,66 @@
+<section id="home" class="hero">
+  <div class="hero__inner container">
+    <!-- #region Text -->
+    <div class="hero__content">
+      <!-- Already on screen at load: a timed intro (--intro is its order), then scroll-out only -->
+      <p class="hero__badge" appReveal revealExitOnly style="--intro: 0">
+        <span class="hero__pulse"></span>
+        {{ hero.availability }}
+      </p>
+
+      <p class="hero__greeting" appReveal revealExitOnly style="--intro: 1">{{ hero.greeting }}</p>
+      <p class="hero__role-line" appReveal revealExitOnly style="--intro: 1.5">
+        <span class="hero__prompt" aria-hidden="true">&gt;</span>
+        <span class="hero__role">{{ typedRole() }}</span
+        ><span class="hero__caret" aria-hidden="true"></span>
+      </p>
+
+      <h1 class="hero__title" appReveal revealExitOnly style="--intro: 2">
+        {{ hero.headline.start }}<span class="text-gradient">{{ hero.headline.highlight }}</span
+        >{{ hero.headline.end }}
+      </h1>
+
+      <p class="hero__intro" appReveal revealExitOnly style="--intro: 3">{{ hero.intro }}</p>
+
+      <div class="hero__actions" appReveal revealExitOnly style="--intro: 4">
+        @for (action of hero.actions; track action.href) {
+          <a
+            class="btn"
+            [class.btn--primary]="action.variant === 'primary'"
+            [class.btn--ghost]="action.variant === 'ghost'"
+            [href]="action.href"
+          >
+            {{ action.label }}
+            <app-icon [name]="action.icon" />
+          </a>
+        }
+      </div>
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region 3D avatar, loaded once the browser is idle -->
+    <div class="hero__stage" appReveal revealExitOnly style="--intro: 2">
+      @defer (on idle) {
+        <app-avatar-stage />
+      } @placeholder {
+        <div class="hero__placeholder" aria-hidden="true">
+          <span>{{ initials }}</span>
+        </div>
+      }
+    </div>
+    <!-- #endregion -->
+
+    <ul class="hero__stats">
+      @for (stat of hero.stats; track stat.label; let i = $index) {
+        <li class="hero__stat card" appTilt appReveal revealExitOnly [style.--intro]="5 + i">
+          <strong class="text-gradient">{{ stat.value }}</strong>
+          <span>{{ stat.label }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <a class="hero__scroll" href="#about" [attr.aria-label]="ui.scrollDown">
+    <span class="hero__mouse"></span>
+  </a>
+</section>

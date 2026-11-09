@@ -1,0 +1,12 @@
+<div class="stage" #host [class.is-ready]="ready()">
+  @if (supported()) {
+    <canvas #canvas class="stage__canvas" aria-hidden="true"></canvas>
+    <p class="stage__bubble" [class.is-visible]="greeting()" aria-hidden="true">
+      {{ look.greeting }}
+    </p>
+    <p class="stage__hint"><app-icon name="rotate" />{{ look.hint }}</p>
+  } @else {
+    <!-- No WebGL: show the initials in the same spot -->
+    <div class="stage__fallback" aria-hidden="true">{{ initials }}</div>
+  }
+</div>

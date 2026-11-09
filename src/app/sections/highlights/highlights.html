@@ -1,0 +1,50 @@
+<section id="highlights" class="section">
+  <div class="container">
+    <app-section-heading sectionId="highlights" [title]="highlights.title" />
+
+    <div class="highlights__grid">
+      <!-- #region Awards -->
+      <div>
+        <h3 class="highlights__subtitle" appReveal>{{ highlights.awardsTitle }}</h3>
+        <ul class="awards">
+          @for (award of highlights.awards; track award.event; let i = $index) {
+            <li class="award card" appTilt [appReveal]="i">
+              <span class="award__medal" aria-hidden="true"><app-icon name="award" /></span>
+              <div>
+                <h4 class="award__title">{{ award.title }}</h4>
+                <p class="award__event">{{ award.event }}</p>
+                <p class="award__detail">{{ award.detail }}</p>
+                @if (award.link) {
+                  <a class="award__link" [href]="award.link.href" target="_blank" rel="noopener">
+                    {{ award.link.label }} <app-icon name="arrow-up-right" />
+                  </a>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+      <!-- #endregion -->
+
+      <!-- #region Languages -->
+      <div>
+        <h3 class="highlights__subtitle" appReveal>{{ highlights.languagesTitle }}</h3>
+        <ul class="languages card" appReveal>
+          @for (language of highlights.languages; track language.name) {
+            <li class="language">
+              <div class="language__head">
+                <strong>{{ language.name }}</strong>
+                <span class="chip">{{ language.level }}</span>
+              </div>
+              <div class="language__bar" role="presentation">
+                <span [style.width.%]="language.proficiency"></span>
+              </div>
+              <p class="language__detail">{{ language.detail }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+      <!-- #endregion -->
+    </div>
+  </div>
+</section>

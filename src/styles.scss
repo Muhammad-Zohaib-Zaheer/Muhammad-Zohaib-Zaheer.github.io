@@ -1,0 +1,366 @@
+// Global styles: reset, typography and the few building blocks every section shares
+// (container, section, card, button, chip, reveal and tilt effects).
+
+@use 'theme';
+@use 'mixins' as *;
+
+// #region Reset
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  // Everything is sized in rem, so this one value scales the whole site on large screens:
+  // 16px up to 1280px wide, about 20px at 1920px and 24px at 2560px.
+  font-size: clamp(1rem, 0.625vw + 0.5rem, 1.625rem);
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  // Soft color washes behind the 3D background.
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        50% 40% at 85% 0%,
+        color-mix(in srgb, var(--c-accent) 16%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        40% 35% at 0% 40%,
+        color-mix(in srgb, var(--c-accent-2) 9%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        45% 40% at 100% 100%,
+        color-mix(in srgb, var(--c-accent-3) 8%, transparent),
+        transparent 70%
+      );
+  }
+
+  &.no-scroll {
+    overflow: hidden;
+  }
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0;
+}
+
+::selection {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent-2);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+// #endregion
+
+// #region Layout
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  padding-block: var(--section-space);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-weight: 600;
+  translate: 0 -200%;
+  transition: translate var(--duration) var(--ease-out);
+
+  &:focus {
+    translate: 0 0;
+  }
+}
+
+// #endregion
+
+// #region Building blocks
+
+.card {
+  position: relative;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  box-shadow: var(--shadow-card);
+}
+
+.text-gradient {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.85em 1.5em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    background-color var(--duration),
+    border-color var(--duration);
+
+  app-icon {
+    transition: transform var(--duration) var(--ease-out);
+  }
+
+  @include hover {
+    transform: translateY(-2px);
+
+    app-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  &--primary {
+    background: var(--gradient-accent);
+    color: var(--c-on-accent);
+    box-shadow: var(--shadow-glow);
+  }
+
+  &--ghost {
+    border-color: var(--c-border-strong);
+    background: var(--c-surface);
+
+    @include hover {
+      border-color: var(--c-accent);
+      background: var(--c-surface-strong);
+    }
+  }
+
+  &--sm {
+    padding: 0.65em 1.1em;
+    font-size: var(--fs-small);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35em 0.8em;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-pill);
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.icon-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--c-accent) 22%, transparent),
+    color-mix(in srgb, var(--c-accent-2) 12%, transparent)
+  );
+  border: 1px solid var(--c-border);
+  color: var(--c-accent-2);
+  font-size: 1.25rem;
+}
+
+// #endregion
+
+// #region Scroll reveal and 3D tilt (see RevealDirective, ScrollRevealService, TiltDirective)
+
+// Registered so the values do not leak into nested elements and can be transitioned.
+@property --enter {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --exit {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+// One transform for both effects, so a card can be revealed and tilted at the same time.
+// --hidden-in is 1 while the element is still below the screen, --hidden-out once it has left at the top.
+.reveal,
+.tilt {
+  --hidden-in: calc(1 - var(--enter));
+  --hidden-out: calc(1 - var(--exit));
+  transform: perspective(var(--tilt-perspective))
+    translate3d(
+      0,
+      calc(var(--hidden-in) * var(--reveal-shift) - var(--hidden-out) * var(--reveal-shift-out)),
+      calc((var(--hidden-in) + var(--hidden-out)) * var(--reveal-depth) * -1)
+    )
+    rotateX(
+      calc(
+        var(--hidden-in) * var(--reveal-tilt) - var(--hidden-out) * var(--reveal-tilt-out) +
+          var(--tilt-x, 0deg)
+      )
+    )
+    rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform var(--reveal-smoothing) var(--ease-out),
+    opacity var(--reveal-smoothing) linear;
+}
+
+.reveal {
+  --enter: 0;
+  opacity: calc(1 - max(var(--hidden-in), var(--hidden-out)));
+  will-change: transform, opacity;
+}
+
+.tilt {
+  transform-style: preserve-3d;
+
+  &.is-tilting {
+    transition-duration: 0.1s;
+  }
+
+  // Glare that follows the mouse.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      rgb(255 255 255 / 10%),
+      transparent 55%
+    );
+    opacity: 0;
+    transition: opacity var(--duration);
+  }
+
+  &.is-tilting::after {
+    opacity: 1;
+  }
+}
+
+// #endregion
+
+// #region Scrollbar
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-border-strong) transparent;
+}
+
+// #endregion
+
+// #region Reduced motion
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// #endregion

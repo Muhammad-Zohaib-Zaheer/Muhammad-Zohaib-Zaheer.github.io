@@ -1,0 +1,123 @@
+@use 'mixins' as *;
+
+.projects {
+  display: grid;
+  gap: 1.125rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.375rem;
+  }
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.375rem, 3vw, 2rem);
+  overflow: hidden;
+
+  // Accent line along the top edge
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--gradient-accent);
+    opacity: 0.7;
+  }
+
+  &--featured {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-accent) 14%, transparent),
+        transparent 55%
+      ),
+      var(--c-surface);
+
+    @include up(md) {
+      grid-column: 1 / -1;
+    }
+
+    .project__points {
+      @include up(md) {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+      }
+    }
+  }
+}
+
+.project__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.125rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+}
+
+.project__number {
+  color: var(--c-accent-2);
+  font-size: var(--fs-small);
+}
+
+.project__context {
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-pill);
+  background: var(--c-surface-strong);
+  color: var(--c-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project__name {
+  font-size: var(--fs-h3);
+}
+
+.project__summary {
+  margin: 0.75rem 0 1.125rem;
+  color: var(--c-text-muted);
+}
+
+.project__points {
+  display: grid;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+
+  li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+
+    &::before {
+      content: '›';
+      position: absolute;
+      left: 2px;
+      color: var(--c-accent);
+      font-weight: 700;
+    }
+  }
+}
+
+.project__footer {
+  margin-top: auto;
+}
+
+.project__label {
+  margin-bottom: 0.625rem;
+  color: var(--c-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 1.125rem;
+}

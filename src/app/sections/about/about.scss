@@ -1,0 +1,208 @@
+@use 'mixins' as *;
+
+.about__grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+
+  @include up(md) {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 4rem;
+  }
+}
+
+// #region Portrait
+
+.about__portrait {
+  margin: 0;
+  max-width: 23.75rem;
+  justify-self: center;
+  width: 100%;
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.125rem;
+    text-align: center;
+
+    strong {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+
+    span {
+      color: var(--c-text-muted);
+      font-size: var(--fs-small);
+    }
+  }
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  margin-top: 4rem; // room for the head above the card
+}
+
+.portrait__backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 85%,
+      color-mix(in srgb, var(--c-accent-2) 22%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(160deg, color-mix(in srgb, var(--c-accent) 30%, transparent), transparent 60%),
+    var(--c-surface);
+}
+
+.portrait__ring {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 85%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 1px dashed var(--c-border-strong);
+  border-radius: 50%;
+  animation: spin 40s linear infinite;
+
+  &--inner {
+    width: 58%;
+    border-style: solid;
+    opacity: 0.5;
+    animation-direction: reverse;
+  }
+}
+
+// Wider and taller than the card, standing on its bottom edge, and pushed forward in 3D.
+.portrait__photo {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 112%;
+  max-width: none;
+  translate: -50% 0;
+  transform: translateZ(3.5rem);
+  filter: drop-shadow(0 1.5rem 2rem rgb(0 0 0 / 45%));
+  pointer-events: none;
+
+  @include down(sm) {
+    width: 104%;
+  }
+}
+
+.portrait__initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 14vw, 8rem);
+  font-weight: 700;
+}
+
+// Small labels floating in front of the card
+.portrait__badge {
+  position: absolute;
+  border-color: var(--c-border-strong);
+  background: color-mix(in srgb, var(--c-bg-soft) 88%, transparent);
+  color: var(--c-text);
+  box-shadow: var(--shadow-card);
+  transform: translateZ(5.5rem);
+  animation: float 5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.7s);
+
+  &[data-slot='0'] {
+    top: 12%;
+    left: -6%;
+  }
+
+  &[data-slot='1'] {
+    top: 48%;
+    right: -8%;
+  }
+
+  &[data-slot='2'] {
+    bottom: 8%;
+    left: -4%;
+  }
+
+  @include down(sm) {
+    &[data-slot='0'],
+    &[data-slot='2'] {
+      left: 2%;
+    }
+
+    &[data-slot='1'] {
+      right: 2%;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes float {
+  50% {
+    translate: 0 -0.6rem;
+  }
+}
+
+// #endregion
+
+// #region Story
+
+.about__story {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  color: var(--c-text-muted);
+  font-size: 1.05rem;
+}
+
+.about__tags {
+  margin-top: 0.5rem;
+}
+
+// #endregion
+
+// #region Strengths
+
+.about__subtitle {
+  margin: clamp(3.5rem, 8vw, 5.5rem) 0 1.5rem;
+  font-size: var(--fs-h3);
+}
+
+.about__strengths {
+  display: grid;
+  gap: 1rem;
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.about__strength {
+  padding: 1.5rem;
+
+  h4 {
+    margin: 1.125rem 0 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  p {
+    color: var(--c-text-muted);
+    font-size: var(--fs-small);
+  }
+}
+
+// #endregion

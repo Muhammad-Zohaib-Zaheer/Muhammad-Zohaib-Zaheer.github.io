@@ -1,0 +1,65 @@
+<section id="about" class="section">
+  <div class="container">
+    <app-section-heading sectionId="about" [title]="about.title" />
+
+    <div class="about__grid">
+      <!-- #region Portrait: the photo stands in front of a tilting card and pops out over its top edge -->
+      <figure class="about__portrait" appReveal>
+        <div class="portrait" [appTilt]="10">
+          <div class="portrait__backdrop card" aria-hidden="true">
+            <span class="portrait__ring"></span>
+            <span class="portrait__ring portrait__ring--inner"></span>
+          </div>
+          @if (showPhoto()) {
+            <img
+              class="portrait__photo"
+              [src]="profile.photo"
+              [alt]="profile.name"
+              loading="lazy"
+              (error)="showPhoto.set(false)"
+            />
+          } @else {
+            <span class="portrait__initials text-gradient">{{ profile.initials }}</span>
+          }
+          @for (badge of about.photoBadges; track badge; let i = $index) {
+            <span class="portrait__badge chip" [attr.data-slot]="i" [style.--i]="i">{{
+              badge
+            }}</span>
+          }
+        </div>
+        <figcaption>
+          <strong>{{ profile.name }}</strong>
+          <span>{{ profile.role }} · {{ profile.location }}</span>
+        </figcaption>
+      </figure>
+      <!-- #endregion -->
+
+      <!-- #region Story -->
+      <div class="about__story">
+        @for (paragraph of about.paragraphs; track $index) {
+          <p [appReveal]="$index">{{ paragraph }}</p>
+        }
+
+        <ul class="chip-list about__tags" [appReveal]="3">
+          @for (tag of about.tags; track tag) {
+            <li class="chip">{{ tag }}</li>
+          }
+        </ul>
+      </div>
+      <!-- #endregion -->
+    </div>
+
+    <!-- #region Strengths -->
+    <h3 class="about__subtitle" appReveal>{{ about.strengthsTitle }}</h3>
+    <ul class="about__strengths">
+      @for (strength of about.strengths; track strength.title; let i = $index) {
+        <li class="about__strength card" appTilt [appReveal]="i % 4">
+          <span class="icon-badge"><app-icon [name]="strength.icon" /></span>
+          <h4>{{ strength.title }}</h4>
+          <p>{{ strength.text }}</p>
+        </li>
+      }
+    </ul>
+    <!-- #endregion -->
+  </div>
+</section>

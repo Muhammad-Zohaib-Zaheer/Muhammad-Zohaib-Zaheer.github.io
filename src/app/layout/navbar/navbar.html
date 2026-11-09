@@ -1,0 +1,46 @@
+<header class="nav" [class.is-scrolled]="scrolled() || menuOpen()">
+  <div class="nav__inner container">
+    <a class="nav__brand" href="#home" (click)="close()" [attr.aria-label]="profile.name">
+      <span class="nav__logo">{{ profile.initials }}</span>
+      <span class="nav__name">{{ profile.name }}</span>
+    </a>
+
+    <nav id="site-menu" class="nav__menu" [class.is-open]="menuOpen()" aria-label="Main">
+      <ul class="nav__links">
+        @for (item of nav; track item.id; let i = $index) {
+          <li [style.--i]="i">
+            <a
+              class="nav__link"
+              [href]="'#' + item.id"
+              [class.is-active]="active() === item.id"
+              (click)="close()"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      @if (profile.resumeUrl) {
+        <a
+          class="btn btn--ghost btn--sm"
+          [href]="profile.resumeUrl"
+          target="_blank"
+          rel="noopener"
+          >{{ ui.resume }}</a
+        >
+      }
+    </nav>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-controls="site-menu"
+      [attr.aria-expanded]="menuOpen()"
+      [attr.aria-label]="menuOpen() ? ui.closeMenu : ui.openMenu"
+      (click)="toggle()"
+    >
+      <app-icon [name]="menuOpen() ? 'x' : 'menu'" />
+    </button>
+  </div>
+</header>

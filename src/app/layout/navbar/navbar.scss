@@ -1,0 +1,181 @@
+@use 'mixins' as *;
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  height: var(--nav-height);
+
+  // The glass background sits on a pseudo-element: a backdrop-filter on the header itself
+  // would become the containing block of the fixed mobile menu.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-bottom: 1px solid var(--c-border);
+    background: color-mix(in srgb, var(--c-bg) 72%, transparent);
+    backdrop-filter: blur(var(--blur-glass));
+    -webkit-backdrop-filter: blur(var(--blur-glass));
+    opacity: 0;
+    transition: opacity var(--duration);
+  }
+
+  &.is-scrolled::before {
+    opacity: 1;
+  }
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+// #region Brand
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.nav__logo {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background: var(--gradient-accent);
+  color: var(--c-on-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow-glow);
+  transition: transform var(--duration) var(--ease-out);
+
+  .nav__brand:hover & {
+    transform: rotate(-8deg) scale(1.05);
+  }
+}
+
+.nav__name {
+  font-size: 1.05rem;
+}
+
+// #endregion
+
+// #region Links
+
+.nav__menu {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav__links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav__link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  transition: color var(--duration);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto 0.75rem 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gradient-accent);
+    scale: 0 1;
+    transition: scale var(--duration) var(--ease-out);
+  }
+
+  &:hover,
+  &.is-active {
+    color: var(--c-text);
+  }
+
+  &.is-active::after {
+    scale: 1 1;
+  }
+}
+
+.nav__toggle {
+  display: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: 0.75rem;
+  background: var(--c-surface);
+  font-size: 1.3rem;
+}
+
+// #endregion
+
+// #region Mobile menu
+
+@include down(md) {
+  .nav__toggle {
+    display: grid;
+  }
+
+  .nav__menu {
+    position: fixed;
+    inset: var(--nav-height) 0 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    background: color-mix(in srgb, var(--c-bg) 94%, transparent);
+    backdrop-filter: blur(var(--blur-glass));
+    -webkit-backdrop-filter: blur(var(--blur-glass));
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--duration),
+      visibility var(--duration);
+
+    &.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .nav__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    li {
+      opacity: 0;
+      translate: 0 1rem;
+      transition:
+        opacity 0.4s var(--ease-out),
+        translate 0.4s var(--ease-out);
+      transition-delay: calc(var(--i) * 45ms);
+    }
+  }
+
+  .nav__menu.is-open li {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .nav__link {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+  }
+}
+
+// #endregion

@@ -1,0 +1,31 @@
+@use 'sass:map';
+
+// Layout breakpoints, used through the mixins below.
+$breakpoints: (
+  sm: 600px,
+  md: 900px,
+  lg: 1200px,
+);
+
+/// Styles from the given breakpoint upwards.
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+/// Styles below the given breakpoint.
+@mixin down($name) {
+  @media (max-width: (map.get($breakpoints, $name) - 0.02px)) {
+    @content;
+  }
+}
+
+/// Only for devices with a real hover (mouse, trackpad).
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
