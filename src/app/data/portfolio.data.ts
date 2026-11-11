@@ -479,9 +479,9 @@ export const PORTFOLIO: Portfolio = {
       },
       {
         name: 'German',
-        level: 'A1',
+        level: 'A2',
         detail: 'In an intensive course, aiming for B1 by mid-2027.',
-        proficiency: 22,
+        proficiency: 35,
       },
       { name: 'Urdu', level: 'Native', detail: 'First language.', proficiency: 100 },
     ],
